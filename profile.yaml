@@ -1,0 +1,58 @@
+candidate:
+  name: Satya Tejh Rallapalli
+  location: Hyderabad, India
+  level_target:
+    - Senior PM
+    - Principal PM
+    - Group PM
+    - Lead PM
+  years_pm: 8
+  years_total: 19
+
+archetypes:
+  A:
+    name: Enterprise Platform PM
+    keywords:
+      - platform
+      - migration
+      - multi-tenant
+      - SaaS
+      - API
+      - scalability
+    anchor_story: "400-customer migration, zero disruption"
+  B:
+    name: AI / Agentic PM
+    keywords:
+      - LLM
+      - agentic
+      - AI-native
+      - evaluation
+      - GPT
+      - Claude
+    anchor_story: "Virtual TBMA agentic onboarding, LLM eval framework"
+  C:
+    name: FinOps / ITFM PM
+    keywords:
+      - FinOps
+      - cloud cost
+      - TBM
+      - IT financial
+      - benchmarking
+    anchor_story: "$146M ARR protected, 3-year benchmarking strategy"
+  D:
+    name: HCM / Payroll Compliance PM
+    keywords:
+      - HCM
+      - payroll
+      - compliance
+      - PEO
+      - multi-jurisdiction
+    anchor_story: "70% compliance-gap reduction, Hire 360"
+
+hard_filters:
+  title_exclude:
+    - Associate PM
+    - VP
+    - Head of Product
+  experience_max: 10
+  posted_within_days: 21

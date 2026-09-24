@@ -1,7 +1,9 @@
 """Migration startup behavior."""
 
 import json
-from unittest.mock import patch
+from contextlib import nullcontext
+from types import SimpleNamespace
+from unittest.mock import MagicMock, patch
 
 import pytest
 import sqlalchemy as sa
@@ -117,7 +119,7 @@ def test_sqlite_ddl_interruption_rolls_back_and_clean_retry_succeeds(tmp_path) -
     assert _MIGRATION_STATE_TABLE not in tables_after_failure
     assert "cost_entries" not in tables_after_failure
     assert "savedsearchsql" not in tables_after_failure
-    assert final_revision == "c91e7a4d2b6f"
+    assert final_revision == "edd83354f977"
 
 
 def test_dashboard_migrates_before_starting_streamlit() -> None:
@@ -136,6 +138,24 @@ def test_dashboard_migrates_before_starting_streamlit() -> None:
         "--server.port=8511",
         "--server.address=127.0.0.1",
     ]
+
+
+def test_main_migrates_before_rendering_pages() -> None:
+    import src.main as app_main
+
+    with (
+        patch("src.main.run_migrations") as migrate,
+        patch("src.main.st.set_page_config") as set_page_config,
+        patch("src.main.st.Page", side_effect=lambda *args, **kwargs: object()),
+        patch("src.main.st.navigation", return_value=SimpleNamespace(run=MagicMock())),
+        patch("src.main.st.page_link"),
+        patch("src.main.st.container", return_value=nullcontext()),
+        patch("src.main.apply_design"),
+    ):
+        app_main.main()
+
+    migrate.assert_called_once_with()
+    set_page_config.assert_called_once()
 
 
 def test_head_migration_rewrites_the_canonical_workflow(tmp_path) -> None:

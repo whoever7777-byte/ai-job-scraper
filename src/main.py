@@ -2,11 +2,13 @@
 
 import streamlit as st
 
+from src.db.migrations import run_migrations
 from src.ui.design import apply_design
 
 
 def main() -> None:
     """Configure the app shell and run the selected page."""
+    run_migrations()
     st.set_page_config(
         page_title="Job Tracker",
         page_icon=":material/work:",

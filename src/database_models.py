@@ -31,7 +31,7 @@ from pydantic import (
 )
 from sqlalchemy import CheckConstraint, String
 from sqlalchemy.orm import registry
-from sqlalchemy.types import JSON
+from sqlalchemy.types import JSON, Text
 from sqlmodel import Column, Field, SQLModel
 
 from src.core_utils import ensure_timezone_aware
@@ -741,6 +741,16 @@ class JobSQL(AppSQLModel, table=True):
         index=True,
         description="Timezone-aware datetime (UTC)",
     )  # Index for stale job queries
+    archetype_score: float | None = None
+    best_archetype: str | None = None
+    fit_reasons: str | None = Field(
+        default=None,
+        sa_column=Column(Text, nullable=True),
+    )
+    gaps: str | None = Field(
+        default=None,
+        sa_column=Column(Text, nullable=True),
+    )
 
     @computed_field
     @property
